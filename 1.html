@@ -26,8 +26,11 @@
       align-items: center;
       justify-content: center;
     }
-    /* Sol clicável */
+
+    /* Sol clicável na camada mais alta */
     .sun {
+      position: relative;
+      z-index: 50;
       width: 75px;
       height: 75px;
       background: radial-gradient(circle, #fff700, #ffae00);
@@ -35,18 +38,17 @@
       border-radius: 50%;
       box-shadow: 0 0 40px #ffaa00, 0 0 80px rgba(255, 170, 0, 0.6);
       cursor: pointer;
-      z-index: 10;
       transition: transform 0.2s ease;
     }
     .sun:hover { transform: scale(1.12); }
 
-    /* Órbitas mais rápidas */
+    /* Órbitas não bloqueiam cliques */
     .orbit {
       position: absolute;
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       pointer-events: none;
-      will-change: transform;
+      z-index: 1;
     }
     .orbit-1 { width: 120px; height: 120px; animation: spin 1.8s linear infinite; }
     .orbit-2 { width: 175px; height: 175px; animation: spin 3s linear infinite; }
@@ -80,7 +82,7 @@
       display: none;
       align-items: center;
       justify-content: center;
-      z-index: 100;
+      z-index: 999;
     }
     .modal.active { display: flex; }
     .modal-content {
@@ -98,7 +100,6 @@
       border-radius: 10px;
       display: block;
     }
-    .modal-content p { margin-top: 10px; color: #ffd54f; font-size: 1rem; }
     .close {
       position: absolute;
       top: -12px;
@@ -118,21 +119,31 @@
   <h1>Solar System Animation 🌞 🪐</h1>
 
   <div class="solar-system">
-    <button id="sun-btn" class="sun" title="Clique no Sol"></button>
+    <button type="button" class="sun" onclick="abrirFoto()" title="Clique no Sol"></button>
+
     <div class="orbit orbit-1"><div class="planet mercury"></div></div>
     <div class="orbit orbit-2"><div class="planet venus"></div></div>
     <div class="orbit orbit-3"><div class="planet earth"><div class="moon-orbit"><div class="moon"></div></div></div></div>
     <div class="orbit orbit-4"><div class="planet mars target"></div></div>
   </div>
 
-  <div id="photo-modal" class="modal">
+  <div id="photo-modal" class="modal" onclick="fecharFoto(event)">
     <div class="modal-content">
-      <span id="close-modal" class="close">&times;</span>
-      <img src="Mel.png" alt="Nossa Foto" />
-      <p>Você é o centro do meu universo ☀️</p>
+      <span class="close" onclick="document.getElementById('photo-modal').classList.remove('active')">&times;</span>
+      <img src="Mel.png" alt="Não encontrei o arquivo Mel.png na pasta" />
     </div>
   </div>
 
   <script>
-    const modal = document.getElementById("photo-modal");
-    document.
+    function abrirFoto() {
+      document.getElementById("photo-modal").classList.add("active");
+    }
+
+    function fecharFoto(e) {
+      if (e.target.id === "photo-modal") {
+        document.getElementById("photo-modal").classList.remove("active");
+      }
+    }
+  </script>
+</body>
+</html>
