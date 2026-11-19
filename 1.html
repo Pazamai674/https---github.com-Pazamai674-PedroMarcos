@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar System Animation 🌞 🪐</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    h1 { position: absolute; top: 35px; font-size: 1.4rem; }
+    .solar-system {
+      position: relative;
+      width: 340px;
+      height: 340px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Sol clicável */
+    .sun {
+      width: 75px;
+      height: 75px;
+      background: radial-gradient(circle, #fff700, #ffae00);
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 0 40px #ffaa00, 0 0 80px rgba(255, 170, 0, 0.6);
+      cursor: pointer;
+      z-index: 10;
+      transition: transform 0.2s ease;
+    }
+    .sun:hover { transform: scale(1.12); }
+
+    /* Órbitas mais rápidas */
+    .orbit {
+      position: absolute;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      pointer-events: none;
+      will-change: transform;
+    }
+    .orbit-1 { width: 120px; height: 120px; animation: spin 1.8s linear infinite; }
+    .orbit-2 { width: 175px; height: 175px; animation: spin 3s linear infinite; }
+    .orbit-3 { width: 240px; height: 240px; animation: spin 4.5s linear infinite; }
+    .orbit-4 { width: 310px; height: 310px; animation: spin 6.5s linear infinite; }
+
+    /* Planetas */
+    .planet {
+      position: absolute;
+      top: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 50%;
+    }
+    .mercury { width: 8px; height: 8px; background: #b5b5b5; }
+    .venus { width: 13px; height: 13px; background: #f5a623; box-shadow: 0 0 8px #f5a623; }
+    .earth { width: 16px; height: 16px; background: #1e90ff; box-shadow: 0 0 10px #1e90ff; }
+    .moon-orbit { position: relative; width: 28px; height: 28px; top: -6px; left: -6px; animation: spin 1s linear infinite; }
+    .moon { width: 5px; height: 5px; background: #fff; border-radius: 50%; }
+    .mars { width: 12px; height: 12px; background: #ff2e2e; box-shadow: 0 0 10px #ff2e2e; }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Modal da foto */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .modal.active { display: flex; }
+    .modal-content {
+      position: relative;
+      background: #111;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 200, 0, 0.4);
+      box-shadow: 0 0 30px rgba(255, 170, 0, 0.35);
+      text-align: center;
+    }
+    .modal-content img {
+      max-width: 85vw;
+      max-height: 75vh;
+      border-radius: 10px;
+      display: block;
+    }
+    .modal-content p { margin-top: 10px; color: #ffd54f; font-size: 1rem; }
+    .close {
+      position: absolute;
+      top: -12px;
+      right: -12px;
+      width: 28px;
+      height: 28px;
+      background: #ffae00;
+      color: #000;
+      font-weight: bold;
+      border-radius: 50%;
+      line-height: 28px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Solar System Animation 🌞 🪐</h1>
+
+  <div class="solar-system">
+    <button id="sun-btn" class="sun" title="Clique no Sol"></button>
+    <div class="orbit orbit-1"><div class="planet mercury"></div></div>
+    <div class="orbit orbit-2"><div class="planet venus"></div></div>
+    <div class="orbit orbit-3"><div class="planet earth"><div class="moon-orbit"><div class="moon"></div></div></div></div>
+    <div class="orbit orbit-4"><div class="planet mars target"></div></div>
+  </div>
+
+  <div id="photo-modal" class="modal">
+    <div class="modal-content">
+      <span id="close-modal" class="close">&times;</span>
+      <img src="Mel.png" alt="Nossa Foto" />
+      <p>Você é o centro do meu universo ☀️</p>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById("photo-modal");
+    document.
