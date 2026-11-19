@@ -1,0 +1,8 @@
+.modal-content img {
+  width: auto;
+  max-width: 85vw;
+  max-height: 75vh;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+}
